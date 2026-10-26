@@ -10,7 +10,7 @@ function Footer() {
             <div className={styles.container}>
                 <div className={styles.left}>
                     <Link to="/app/dashboard" className={styles.brand}>
-                        <span className={styles.brandName}>Ziplify</span>
+                        <span className={styles.brandName}>Zippify</span>
                     </Link>
                     <span className={styles.dot}>•</span>
                     <span className={styles.copyright}>© {currentYear}</span>

@@ -62,7 +62,7 @@ function Signup() {
             <div className={`${styles.wrapper}`}>
                 <div className={`${styles.header}`}>
                     <h2>Signup</h2>
-                    <p>Signup to your ziplify account</p>
+                    <p>Signup to your zippify account</p>
                 </div>
 
                 <div className={`${styles.signupField}`}>

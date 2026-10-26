@@ -52,7 +52,7 @@ function VerifyEmail() {
                     <h1 className={styles.title}>Your email is verified!</h1>
                     <p className={styles.description}>
                         Great news — your email address has been successfully confirmed. <br />
-                        You can now log in and start using Ziplify.
+                        You can now log in and start using Zippify.
                     </p>
                     <div className={styles.actions}>
                         <Link to="/auth/login" className={styles.btnPrimary} id="go-to-login">

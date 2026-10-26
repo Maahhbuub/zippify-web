@@ -50,7 +50,7 @@ function Navbar() {
                 <div className={styles.inner}>
 
                     <Link to="/app/dashboard" className={styles.logo}>
-                        <span className={styles.logoText}>Ziplify</span>
+                        <span className={styles.logoText}>Zippify</span>
                     </Link>
 
                     <nav className={`${styles.nav} ${styles.desktopNav}`}>

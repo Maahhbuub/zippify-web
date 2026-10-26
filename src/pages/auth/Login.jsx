@@ -80,7 +80,7 @@ function Login() {
             <div className={`${styles.wrapper}`}>
                 <div className={`${styles.header}`}>
                     <h2>Login</h2>
-                    <p>Login to your ziplify account</p>
+                    <p>Login to your zippify account</p>
                 </div>
 
                 <div className={`${styles.loginField}`}>

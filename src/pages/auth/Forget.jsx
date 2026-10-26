@@ -29,7 +29,6 @@ function Forget() {
         setLoading(true);
         try {
             await api.post('/auth/forgot-password', { email });
-            toast.success("Email sent successfully");
             setSentEmail(email);
             setEmail("");
             setShowSpamPopup(true);
