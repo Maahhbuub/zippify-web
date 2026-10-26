@@ -19,6 +19,8 @@ function Signup() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [showSpamPopup, setShowSpamPopup] = useState(false);
+    const [registeredEmail, setRegisteredEmail] = useState('');
     const passwordRef = useRef(null);
     const confirmRef = useRef(null);
 
@@ -45,9 +47,9 @@ function Signup() {
         setLoading(true);
         try {
             await register(formData);
-            toast.success("Please verify your email");
+            setRegisteredEmail(formData.email);
             setFormdata({ name: "", email: "", password: "", confirmPassword: "" });
-            navigate("/auth/login");
+            setShowSpamPopup(true);
         } catch (error) {
             toast.error(error.response?.data?.message || "Signup failed");
         } finally {
@@ -104,7 +106,23 @@ function Signup() {
                 </div>
             </div>
 
-        </div>
+        {/* Spam Check Popup */}
+        {showSpamPopup && (
+            <div className={styles.popupOverlay} onClick={() => { setShowSpamPopup(false); navigate('/auth/login'); }}>
+                <div className={styles.popupBox} onClick={(e) => e.stopPropagation()}>
+                    <div className={styles.popupIcon}>📬</div>
+                    <h3 className={styles.popupTitle}>Verify your email</h3>
+                    <p className={styles.popupMsg}>
+                        We've sent a verification link to <strong>{registeredEmail}</strong>. Please check your inbox.
+                    </p>
+                    <p className={styles.popupSpamHint}>
+                        ⚠️ Don't see it? Check your <strong>Spam</strong> or <strong>Junk</strong> folder — it may have landed there.
+                    </p>
+                    <button className={styles.popupClose} onClick={() => { setShowSpamPopup(false); navigate('/auth/login'); }}>Got it, go to Login</button>
+                </div>
+            </div>
+        )}
+    </div>
     )
 }
 

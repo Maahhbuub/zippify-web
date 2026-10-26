@@ -19,6 +19,7 @@ function Login() {
     const [loading, setLoading] = useState(false);
     const [showResend, setShowResend] = useState(false);
     const [resending, setResending] = useState(false);
+    const [showSpamPopup, setShowSpamPopup] = useState(false);
     const passwordRef = useRef(null);
 
     const togglePassword = () => setShowPassword(p => !p);
@@ -63,8 +64,8 @@ function Login() {
         setResending(true);
         try {
             await api.post('/auth/resend-verification', { email: formData.email });
-            toast.success("A new link has been sent");
             setShowResend(false);
+            setShowSpamPopup(true);
         } catch (error) {
             const message = error.response?.data?.message || "Something went wrong. Please try again.";
             toast.error(message);
@@ -122,6 +123,22 @@ function Login() {
                 </div>
             </div>
 
+            {/* Spam Check Popup */}
+            {showSpamPopup && (
+                <div className={styles.popupOverlay} onClick={() => setShowSpamPopup(false)}>
+                    <div className={styles.popupBox} onClick={(e) => e.stopPropagation()}>
+                        <div className={styles.popupIcon}>📬</div>
+                        <h3 className={styles.popupTitle}>Check your email</h3>
+                        <p className={styles.popupMsg}>
+                            We've sent a verification link to <strong>{formData.email || 'your email'}</strong>.
+                        </p>
+                        <p className={styles.popupSpamHint}>
+                            ⚠️ Don't see it? Check your <strong>Spam</strong> or <strong>Junk</strong> folder — it may have landed there.
+                        </p>
+                        <button className={styles.popupClose} onClick={() => setShowSpamPopup(false)}>Got it!</button>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
