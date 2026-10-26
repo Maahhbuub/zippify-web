@@ -88,7 +88,7 @@
 .originalUrl {
     color: var(--subtext);
     font-size: 0.82rem;
-    max-width: 22rem;
+    max-width: 35rem;
     display: block;
     white-space: nowrap;
     overflow: hidden;

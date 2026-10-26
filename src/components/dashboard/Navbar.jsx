@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 const NAV_LINKS = [
     { label: 'Dashboard', to: '/app/dashboard', icon: LayoutDashboard },
     { label: 'My Links', to: '/app/links', icon: LinkIcon },
-    // { label: 'Analytics', to: '/app/analytics', icon: BarChart2 },
+    { label: 'Analytics', to: '/app/analytics', icon: BarChart2 },
     // { label: 'Settings', to: '/my-dashboard/settings', icon: Settings },
 ];
 

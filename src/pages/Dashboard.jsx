@@ -3,7 +3,6 @@ import { useAuth } from '../hooks/UseAuth';
 import LinkCreator from '../components/dashboard/LinkCreator';
 import StatsGrid from '../components/dashboard/StatsGrid';
 import LinksTable from '../components/dashboard/LinksTable';
-import ClicksChart from '../components/dashboard/ClicksChart';
 import QuickInsights from '../components/dashboard/QuickInsights';
 import ConfirmModal from '../components/ui/ConfirmModal';
 import EditLinkModal from '../components/ui/EditLinkModal';
@@ -130,7 +129,6 @@ function Dashboard() {
 
                 <div className={styles.mainGrid}>
                     <LinksTable links={links?.data || []} onDelete={handleDeleteClick} onEdit={handleEditClick} loading={isInitialLoading} />
-                    <ClicksChart links={links?.data || []} loading={isInitialLoading} />
                 </div>
 
                 <QuickInsights links={links?.data || []} loading={isInitialLoading} />
