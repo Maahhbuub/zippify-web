@@ -1,29 +1,19 @@
 import styles from "./Hero.module.css"
 import { useState, useRef, useEffect } from "react";
-import { Link2, Copy, Check, Heart } from 'lucide-react';
+import { Link2, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import api from "../../api/api";
 import { useParticles } from "../../hooks/useParticles";
 import toast from 'react-hot-toast';
+import LinkSuccessModal from "../ui/LinkSuccessModal";
 
 function Hero() {
     const canvasRef = useParticles();
     const [url, setUrl] = useState("");
-    const [short, setShort] = useState("");
-    const [copied, setCopied] = useState(false);
+    const [createdLink, setCreatedLink] = useState(null);
     const [loading, setLoading] = useState(false);
     const inpFocus = useRef(null);
-
-    const handleCopy = async () => {
-        try {
-            await navigator.clipboard.writeText(short);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
-        } catch {
-            console.error("Failed to copy");
-        }
-    }
 
     useEffect(() => {
         inpFocus.current?.focus();
@@ -45,10 +35,10 @@ function Hero() {
         setLoading(true);
         try {
             const res = await api.post('/', { longUrl: trimmed });
-            let shortUrl = window.location.origin + "/" + res.data.url.shortCode
-            setShort(shortUrl);
-
-            toast.success(res.data.message);
+            setCreatedLink({
+                shortUrl: window.location.origin + "/" + res.data.url.shortCode,
+                longUrl: trimmed,
+            });
         } catch (err) {
             console.error(err.response?.data || err.message);
             const message = err.response?.data?.message || err.response?.data || err.message;
@@ -79,22 +69,6 @@ function Hero() {
                     </form>
                 </div>
 
-                {short && (
-                    <div className={styles.resultRow}>
-                        <span className={styles.resultLabel}>Short link:</span>
-                        <a href={short} target="_blank" rel="noopener noreferrer" className={styles.resultLink}>
-                            {short}
-                        </a>
-                        <button
-                            type="button"
-                            className={`${styles.copyBtn} ${copied ? styles.copiedBtn : ""}`}
-                            onClick={handleCopy}
-                        >
-                            {copied ? <><Check size={14} /> Copied!</> : <><Copy size={14} /> Copy</>}
-                        </button>
-                    </div>
-                )}
-
                 <p className={styles.footer}>Fast, simple, and free URL shortening.</p>
                 <p className={styles.explore}>
                     <Link to='/auth/login'>Explore More</Link>
@@ -105,6 +79,8 @@ function Hero() {
                 Made with <Heart size={12} className={styles.heartIcon} fill="currentColor" /> by{' '}
                 <span className={styles.author}>Mahbub</span>
             </div>
+
+            <LinkSuccessModal link={createdLink} onClose={() => setCreatedLink(null)} />
         </section>
     )
 }

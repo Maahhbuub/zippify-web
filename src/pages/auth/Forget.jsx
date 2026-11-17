@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import styles from './Forget.module.css'
 
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import api from '../../api/api';
+import SpamCheckModal from '../../components/ui/SpamCheckModal';
 
 
 function Forget() {
@@ -63,22 +64,12 @@ function Forget() {
                 </div>
             </div>
 
-            {/* Spam Check Popup */}
-            {showSpamPopup && (
-                <div className={styles.popupOverlay} onClick={() => { setShowSpamPopup(false); navigate('/auth/login'); }}>
-                    <div className={styles.popupBox} onClick={(e) => e.stopPropagation()}>
-                        <div className={styles.popupIcon}>📬</div>
-                        <h3 className={styles.popupTitle}>Check your email</h3>
-                        <p className={styles.popupMsg}>
-                            We've sent a password reset link to <strong>{sentEmail}</strong>.
-                        </p>
-                        <p className={styles.popupSpamHint}>
-                            ⚠️ Don't see it? Check your <strong>Spam</strong> or <strong>Junk</strong> folder — it may have landed there.
-                        </p>
-                        <button className={styles.popupClose} onClick={() => { setShowSpamPopup(false); navigate('/auth/login'); }}>Got it!</button>
-                    </div>
-                </div>
-            )}
+            <SpamCheckModal
+                isOpen={showSpamPopup}
+                email={sentEmail}
+                message="We've sent a password reset link to"
+                onClose={() => { setShowSpamPopup(false); navigate('/auth/login'); }}
+            />
         </div>
     )
 }

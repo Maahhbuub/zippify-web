@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
-import { Link2, CalendarDays, ChevronDown, Check, PenLine, Copy } from 'lucide-react';
+import { Link2, CalendarDays, ChevronDown, Check, PenLine } from 'lucide-react';
 import styles from './LinkCreator.module.css';
 import toast from 'react-hot-toast';
 import api from '../../api/api';
+import LinkSuccessModal from '../ui/LinkSuccessModal';
 
 const EXPIRE_OPTIONS = [
     { label: 'No expiry', value: '' },
@@ -20,8 +21,7 @@ function LinkCreator({ onAdd }) {
     });
 
     const [loading, setLoading] = useState(false);
-    const [short, setShort] = useState("");
-    const [copied, setCopied] = useState(false);
+    const [createdLink, setCreatedLink] = useState(null);
 
     const [dropOpen, setDropOpen] = useState(false);
     const dropRef = useRef(null);
@@ -40,17 +40,6 @@ function LinkCreator({ onAdd }) {
             ...curr,
             [name]: value,
         }));
-    };
-
-    const handleCopy = async () => {
-        if (!short) return;
-        try {
-            await navigator.clipboard.writeText(short);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
-        } catch {
-            toast.error("Failed to copy");
-        }
     };
 
     const handleSubmit = async (e) => {
@@ -78,12 +67,13 @@ function LinkCreator({ onAdd }) {
             if (formdata.expireDay) payload.expiresInDays = Number(formdata.expireDay);
 
             const res = await api.post('/', payload);
-            setShort(window.location.origin + "/" + res.data.url.shortCode);
+            setCreatedLink({
+                shortUrl: window.location.origin + "/" + res.data.url.shortCode,
+                longUrl: formdata.url.trim(),
+            });
 
-            toast.success(res.data.message);
             setFormdata({ url: '', alias: '', expireDay: '' });
             if (onAdd) onAdd(res.data.url);
-
         } catch (err) {
             console.error(err.response?.data || err.message);
             const message = err.response?.data?.message || err.response?.data || err.message;
@@ -163,33 +153,7 @@ function LinkCreator({ onAdd }) {
                 </button>
             </form>
 
-            {short && (
-                <div className={styles.resultRow}>
-                    <span className={styles.resultLabel}>Short link:</span>
-                    <a
-                        href={short}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.resultLink}
-                    >
-                        {short}
-                    </a>
-                    <button
-                        type="button"
-                        className={`${styles.copyBtn} ${copied ? styles.copiedBtn : ''}`}
-                        onClick={handleCopy}
-                    >
-                        {copied ? (
-                            <>
-                                <Check size={14} />
-                                <span>Copied!</span>
-                            </>
-                        ) : (
-                            <> <Copy size={14} /> Copy </>
-                        )}
-                    </button>
-                </div>
-            )}
+            <LinkSuccessModal link={createdLink} onClose={() => setCreatedLink(null)} />
         </div>
     );
 }

@@ -1,10 +1,11 @@
-import React, { useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 import styles from './Login.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../../hooks/UseAuth';
 import api from '../../api/api';
+import SpamCheckModal from '../../components/ui/SpamCheckModal';
 
 function Login() {
     const navigate = useNavigate();
@@ -123,22 +124,12 @@ function Login() {
                 </div>
             </div>
 
-            {/* Spam Check Popup */}
-            {showSpamPopup && (
-                <div className={styles.popupOverlay} onClick={() => setShowSpamPopup(false)}>
-                    <div className={styles.popupBox} onClick={(e) => e.stopPropagation()}>
-                        <div className={styles.popupIcon}>📬</div>
-                        <h3 className={styles.popupTitle}>Check your email</h3>
-                        <p className={styles.popupMsg}>
-                            We've sent a verification link to <strong>{formData.email || 'your email'}</strong>.
-                        </p>
-                        <p className={styles.popupSpamHint}>
-                            ⚠️ Don't see it? Check your <strong>Spam</strong> or <strong>Junk</strong> folder — it may have landed there.
-                        </p>
-                        <button className={styles.popupClose} onClick={() => setShowSpamPopup(false)}>Got it!</button>
-                    </div>
-                </div>
-            )}
+            <SpamCheckModal
+                isOpen={showSpamPopup}
+                email={formData.email || 'your email'}
+                message="We've sent a verification link to"
+                onClose={() => setShowSpamPopup(false)}
+            />
         </div>
     )
 }
