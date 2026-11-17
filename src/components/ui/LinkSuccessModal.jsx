@@ -76,6 +76,7 @@ function LinkSuccessModal({ link, onClose }) {
                         title={copied ? 'Copied!' : 'Copy link'}
                     >
                         {copied ? <Check size={15} /> : <Copy size={15} />}
+                        <span className={styles.copyText}>{copied ? 'Copied!' : 'Copy link'}</span>
                     </button>
                 </div>
 
