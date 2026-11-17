@@ -119,8 +119,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.35rem;
-    padding: 0.48rem 0.7rem;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
     color: #fff;
     background: var(--primary);
     border: 0;
@@ -139,7 +140,7 @@
 }
 
 .copied {
-    background: #9883f5;
+    background: var(--primary);
 }
 
 .destination {

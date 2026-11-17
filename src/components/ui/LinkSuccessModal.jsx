@@ -72,9 +72,10 @@ function LinkSuccessModal({ link, onClose }) {
                         type="button"
                         className={`${styles.copyBtn} ${copied ? styles.copied : ''}`}
                         onClick={handleCopy}
+                        aria-label={copied ? 'Short link copied' : 'Copy short link'}
+                        title={copied ? 'Copied!' : 'Copy link'}
                     >
                         {copied ? <Check size={15} /> : <Copy size={15} />}
-                        {copied ? 'Copied!' : 'Copy link'}
                     </button>
                 </div>
 
