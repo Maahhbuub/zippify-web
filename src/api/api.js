@@ -21,6 +21,21 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
+let refreshPromise = null;
+
+// Every caller shares the same in-flight refresh request.
+export const refreshSession = () => {
+    if (!refreshPromise) {
+        refreshPromise = api.post("/auth/refresh-token")
+            .then(({ data }) => {
+                setAccessToken(data.accessToken);
+                return data.accessToken;
+            })
+            .finally(() => { refreshPromise = null; });
+    }
+    return refreshPromise;
+};
+
 api.interceptors.response.use(null, async (error) => {
     const req = error.config;
     const is401 = error.response?.status === 401;
@@ -29,9 +44,8 @@ api.interceptors.response.use(null, async (error) => {
     if (req && is401 && !req._retry && !isAuthRoute) {
         req._retry = true;
         try {
-            const { data } = await api.post("/auth/refresh-token");
-            setAccessToken(data.accessToken);
-            req.headers.Authorization = `Bearer ${data.accessToken}`;
+            const token = await refreshSession();
+            req.headers.Authorization = `Bearer ${token}`;
             return api(req);
         } catch {
             setAccessToken("");
