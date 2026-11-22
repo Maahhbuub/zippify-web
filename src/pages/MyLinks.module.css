@@ -373,6 +373,51 @@
     font-size: 0.875rem;
 }
 
+.featureList {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    gap: 0.75rem;
+}
+
+.featureCard {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    min-width: 0;
+    min-height: 5.25rem;
+    padding: 1rem 1.1rem;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.featureIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.2rem;
+    height: 2.2rem;
+    flex-shrink: 0;
+    color: var(--primary);
+    background: #fff3f0;
+    border-radius: 8px;
+}
+
+.featureCard h2 {
+    margin: 0;
+    color: var(--text);
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.featureCard p {
+    margin: 0.2rem 0 0;
+    color: var(--subtext);
+    font-size: 0.72rem;
+    line-height: 1.35;
+}
+
 .expiredBadge {
     font-size: 0.72rem;
     font-weight: 600;
@@ -403,6 +448,11 @@
 
     .select {
         flex: 1;
+    }
+
+    .featureList {
+        display: grid;
+        grid-template-columns: 1fr;
     }
 }
 

@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { Copy, Check, Trash2, ExternalLink, Link2, Search, ArrowUpDown, Filter, ChevronDown, Pencil, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Copy, Check, Trash2, ExternalLink, Link2, Search, ArrowUpDown, Filter, ChevronDown, Pencil, ChevronLeft, ChevronRight, PenLine, CalendarDays, ChartNoAxesColumnIncreasing } from 'lucide-react';
 import EditLinkModal from '../components/ui/EditLinkModal';
 import LinkCreator from '../components/dashboard/LinkCreator';
 import ConfirmModal from '../components/ui/ConfirmModal';
@@ -475,6 +475,36 @@ function MyLinks() {
 
                     </div>
                 </div>
+
+                <section className={styles.featureList} aria-label="Zippify features">
+                    <div className={styles.featureCard}>
+                        <div className={styles.featureIcon}>
+                            <PenLine size={17} />
+                        </div>
+                        <div>
+                            <h2>Custom aliases</h2>
+                            <p>Create memorable short links</p>
+                        </div>
+                    </div>
+                    <div className={styles.featureCard}>
+                        <div className={styles.featureIcon}>
+                            <CalendarDays size={17} />
+                        </div>
+                        <div>
+                            <h2>Expiry controls</h2>
+                            <p>Set a clear link lifetime</p>
+                        </div>
+                    </div>
+                    <div className={styles.featureCard}>
+                        <div className={styles.featureIcon}>
+                            <ChartNoAxesColumnIncreasing size={17} />
+                        </div>
+                        <div>
+                            <h2>Click analytics</h2>
+                            <p>Track every link performance</p>
+                        </div>
+                    </div>
+                </section>
 
                 <ConfirmModal
                     isOpen={Boolean(deleteId)}
